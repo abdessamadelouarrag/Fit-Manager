@@ -52,7 +52,7 @@ $data3 = mysqli_fetch_all($resutlt3, MYSQLI_ASSOC);
 
 //patie delet cours f table
 if (isset($_GET['del_id'])) {
-    $delet_cours = intval($_GET['del_id']);
+    $delet_cours = $_GET['del_id'];
     $sqldelet = "DELETE FROM cours WHERE id_cours = $delet_cours";
 
     if (mysqli_query($conn, $sqldelet)) {
@@ -64,7 +64,7 @@ if (isset($_GET['del_id'])) {
 }
 //partie delet equipement in table
 if (isset($_GET['deleq_id'])) {
-    $delet_equipement = intval($_GET['deleq_id']);
+    $delet_equipement = $_GET['deleq_id'];
     $sqldelet_equipement = "DELETE FROM equipement WHERE id_equipement= $delet_equipement";
 
     if (mysqli_query($conn, $sqldelet_equipement)) {
@@ -74,6 +74,42 @@ if (isset($_GET['deleq_id'])) {
         echo "Error:" . mysqli_error($conn);
     }
 }
+
+//part edit cours
+
+$name_cours = "";
+$catg_cours = "";
+$date_cours = "";
+$heure_cours = "";
+$duree = "";
+$nb_max = "";
+
+if (isset($_GET['edit_id'])) {
+    $edit_cours = $_GET['edit_id'];
+    $selectcours = mysqli_query($conn, "SELECT * FROM cours WHERE id_cours = $edit_cours");
+    $datacours = mysqli_fetch_assoc($selectcours);
+
+    if ($datacours) {
+        $name_cours = $datacours['nom'];
+        $catg_cours = $datacours['categorie'];
+        $date_cours = $datacours['date_cours'];
+        $heure_cours = $datacours['heure'];
+        $duree = $datacours['duree'];
+        $nb_max = $datacours['nombre_max_de_participants'];
+    }
+}
+
+$totalYoga = "SELECT * FROM cours WHERE categorie = 'Yoga'";
+$resultotal = mysqli_query($conn, $totalYoga);
+$datayoga = mysqli_fetch_all($resultotal);
+
+$totalMusculation = "SELECT * FROM cours WHERE categorie = 'Musculation'";
+$resultotalmus = mysqli_query($conn, $totalMusculation);
+$datamusculation = mysqli_fetch_all($resultotalmus);
+
+$totalMusculation = "SELECT * FROM cours WHERE categorie = 'Cardio'";
+$resultotalcardio = mysqli_query($conn, $totalMusculation);
+$datacardio = mysqli_fetch_all($resultotalcardio);
 ?>
 
 
@@ -119,31 +155,67 @@ if (isset($_GET['deleq_id'])) {
                 <h3>Total Équipements</h3>
                 <div class="stat-number"><?= count($data3); ?></div>
             </div>
-            <div class="stat-card">
-                <h3>Capacité Totale</h3>
-                <div class="stat-number">0</div>
+        </div>
+        <div id="part-type-cours">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h1 class="title">Cours Par Type</h1>
+                    <div class="types-container">
+                        <div class="type-box yoga">
+                            <h3 style="color: #1a1f2e">Yoga</h3>
+                            <div class="stat-number"><?= count($datayoga) ?></div>
+                        </div>
+                        <div class="type-box musculation">
+                            <h3 style="color: #1a1f2e">Musculation</h3>
+                            <div class="stat-number"><?= count($datamusculation) ?></div>
+                        </div>
+                        <div class="type-box cardio">
+                            <h3 style="color: #1a1f2e">Cardio</h3>
+                            <div class="stat-number" style="color: #1a1f2e;"><?= count($datacardio) ?></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h1 class="title">Equipement Par Type</h1>
+                    <div class="types-container">
+                        <div class="type-box yoga">
+                            <h3 style="color: #1a1f2e">Yoga</h3>
+                            <div class="stat-number"><?= count($datahalteres) ?></div>
+                        </div>
+                        <div class="type-box musculation">
+                            <h3 style="color: #1a1f2e">Musculation</h3>
+                            <div class="stat-number"><?= count($datatapis) ?></div>
+                        </div>
+                        <div class="type-box cardio">
+                            <h3 style="color: #1a1f2e">Cardio</h3>
+                            <div class="stat-number" style="color: #1a1f2e;"><?= count($databallons) ?></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
+
         <!-- Add Course Form -->
-        <div class="card part-cours" style="display: none;">
+        <div class="card part-cours" style="display: none;" id="section-cours">
             <h3>Ajouter un cours</h3>
             <form action="" method="POST">
                 <input type="hidden" name="form" value="cours">
-                <input type="text" name="name_cours" placeholder="Nom du cours" required>
+                <input type="text" name="name_cours" placeholder="Nom du cours" value="<?= $name_cours ?>" required>
                 <select name="categorie_cours" required>
                     <option value="">--Catégorie--</option>
-                    <option>Yoga</option>
-                    <option>Musculation</option>
-                    <option>Cardio</option>
+                    <option <?= ($catg_cours == "Yoga") ? 'selected' : '' ?>>Yoga</option>
+                    <option <?= ($catg_cours == "Musculation") ? 'selected' : '' ?>>Musculation</option>
+                    <option <?= ($catg_cours == "Cardio") ? 'selected' : '' ?>>Cardio</option>
                 </select>
                 <div class="two-grid">
-                    <input type="date" name="date_cours" required>
-                    <input type="time" name="houre_cours" required>
+                    <input type="date" name="date_cours" value="<?= $date_cours ?>" required>
+                    <input type="time" name="houre_cours" value="<?= $heure_cours ?>" required>
                 </div>
                 <div class="two-grid">
-                    <input type="number" name="duree_cours" placeholder="Durée" required>
-                    <input type="number" name="max_places" placeholder="Places max" required>
+                    <input type="number" name="duree_cours" placeholder="Durée" value="<?= $duree ?>" required>
+                    <input type="number" name="max_places" placeholder="Places max" value="<?= $nb_max ?>" required>
                 </div>
                 <button>Ajouter</button>
             </form>
@@ -197,8 +269,8 @@ if (isset($_GET['deleq_id'])) {
                             <td data-label='Places'>" . $row["nombre_max_de_participants"] . "</td>
                             <td data-label='Actions'>
                                 <div class='action-buttons'>
-                                    <a href='#' id='btn-mdf' onclick= 'return checkedit()'>Modifier</a>
-                                    <a href='index.php?del_id={$row['id_cours']}' id='btn-delet' onclick='checkdelet(event)'>Supprimer</a>
+                                    <a href='?edit_id={$row['id_cours']}' id='btn-mdf' onclick='checkedit()'>Modifier</a>
+                                    <a href='?del_id={$row['id_cours']}' id='btn-delet' onclick='checkdelet(event)'>Supprimer</a>
                                 </div>
                             </td>
                         </tr>";
@@ -245,8 +317,6 @@ if (isset($_GET['deleq_id'])) {
             </div>
         </div>
     </div>
-
-    
 
     <script src="allscript.js"></script>
 </body>

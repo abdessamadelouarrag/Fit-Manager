@@ -21,9 +21,9 @@ function checkdelet(event) {
 }
 
 
-function checkedit() {
-    return confirm("Are you sure you want to edit?");
-}
+    // function checkedit() {
+    //     return confirm("Are you sure you want to edit?");
+    // }
 
 const btnDashboard = document.querySelector(".btn-dashboard"); // New selector for dashboard button
 const btnAjouterCours = document.querySelector(".btn-ajouter-cours");
@@ -34,6 +34,7 @@ const btnAjouterEquipement = document.querySelector(".btn-ajouter-equipement");
 const listCours = document.querySelector(".list-cours");
 const listEquipement = document.querySelector(".list-equipement");
 const textDashboard = document.querySelector(".text-dashboard");
+const partTypeCours = document.querySelector("#part-type-cours");
 
 // --- Helper function to manage visibility ---
 function setVisibility(dashboard, addCours, addEquipement, listCoursVisible, listEquipementVisible) {
@@ -49,6 +50,7 @@ btnDashboard.addEventListener("click", (e) => {
     e.preventDefault();
     setVisibility(true, false, false, false, false);
     textDashboard.style.display = "block";
+    partTypeCours.style.display = ""
 });
 
 
@@ -58,6 +60,7 @@ btnAjouterCours.addEventListener("click", (e) => {
     // Show Course Form and Course List, hide others
     setVisibility(false, true, false, true, false);
     textDashboard.style.display = "none";
+    partTypeCours.style.display = "none"
 });
 
 // 3. Add Equipment Button Handler
@@ -66,5 +69,6 @@ btnAjouterEquipement.addEventListener('click', (e) => { // Added 'e' and 'e.prev
     // Show Equipment Form and Equipment List, hide others
     setVisibility(false, false, true, false, true);
     textDashboard.style.display = "none";
+    partTypeCours.style.display = "none"
 });
 setVisibility(true, false, false, false, false);
