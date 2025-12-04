@@ -44,9 +44,8 @@ Open in browser:
 bash
 Copier le code
 http://localhost/Fit-Manager/index.php
-📁 Project Structure
-pgsql
-Copier le code
+
+
 Fit-Manager/
 │── index.php
 │── connect.php
@@ -54,5 +53,10 @@ Fit-Manager/
 │── styles/
 │── images/
 └── database.sql
+└── edit.php
+└── delete.php
+
+
+
 👤 Author
 Abdessamad Elouarrag
