@@ -14,3 +14,14 @@ CREATE TABLE equipement(id_equipement INT PRIMARY KEY AUTO_INCREMENT,
                         type VARCHAR(150),
                         quantite_disponible INT,
                         etat VARCHAR(150));
+
+
+CREATE TABLE cours_equipement (
+        id_cours INT NOT NULL,
+        id_equipement INT NOT NULL,
+    
+        PRIMARY KEY (id_cours, id_equipement),
+    
+        FOREIGN KEY (id_cours) REFERENCES cours(id_cours),
+        FOREIGN KEY (id_equipement) REFERENCES equipement(id_equipement)
+    );

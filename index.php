@@ -3,7 +3,7 @@ include "connect.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    if($_POST["form"] == "cours"){
+    if ($_POST["form"] == "cours") {
 
         $name_cours = $_POST["name_cours"];
         $categorie_cours = $_POST["categorie_cours"];
@@ -11,10 +11,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $houre_cours = $_POST["houre_cours"];
         $duree_cours = $_POST["duree_cours"];
         $max_places = $_POST["max_places"];
-    
-    
+
+
         $sql = "INSERT INTO cours (nom, categorie, date_cours, heure, duree, nombre_max_de_participants) VALUES ('$name_cours', '$categorie_cours', '$date_cours', '$houre_cours', '$duree_cours', '$max_places')";
-    
+
         if (mysqli_query($conn, $sql)) {
             header("Location: index.php");
             exit();
@@ -24,15 +24,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 
-    if($_POST["form"] == "equipement"){
+    if ($_POST["form"] == "equipement") {
 
         $nom_equipement = $_POST["nom_equipement"];
         $type_equipement = $_POST["type_equipement"];
         $quantite_equipement = $_POST["quantite_equipement"];
         $etat_equipement = $_POST["etat_equipement"];
-    
+
         $sql_eq = "INSERT INTO equipement (nom, type, quantite_disponible, etat) VALUES ('$nom_equipement', '$type_equipement', '$quantite_equipement', '$etat_equipement')";
-    
+
         if (mysqli_query($conn, $sql_eq)) {
             header("Location: index.php");
             exit();
@@ -85,407 +85,29 @@ if (isset($_GET['deleq_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Dashboard Salle de Sport</title>
     <link rel="icon" type="image/jpeg" href="/images/gym.jpeg" />
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-        :root {
-            --bg-primary: #0a0e1a;
-            --bg-secondary: #111827;
-            --bg-card: #1a1f2e;
-            --bg-hover: #252b3d;
-            --accent-primary: #3b82f6;
-            --accent-secondary: #8b5cf6;
-            --accent-success: #10b981;
-            --accent-danger: #ef4444;
-            --accent-warning: #f59e0b;
-            --text-primary: #f9fafb;
-            --text-secondary: #9ca3af;
-            --text-muted: #6b7280;
-            --border: #1f2937;
-            --shadow: rgba(0, 0, 0, 0.5);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scrollbar-width: thin;
-            scrollbar-color: var(--accent-primary) var(--bg-secondary);
-        }
-
-        *::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        *::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
-        }
-
-        *::-webkit-scrollbar-thumb {
-            background: var(--accent-primary);
-            border-radius: 4px;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            padding: 24px;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        /* Header */
-        .header {
-            margin-bottom: 32px;
-        }
-
-        .header h1 {
-            font-size: 32px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
-        }
-
-        .header p {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            margin-bottom: 32px;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
-            padding: 24px;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-        }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px var(--shadow);
-        }
-
-        .stat-card h3 {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .stat-number {
-            font-size: 48px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1;
-        }
-
-        /* Cards */
-        .card {
-            background: var(--bg-card);
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            padding: 28px;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 12px var(--shadow);
-        }
-
-        .card h3 {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .card h3::before {
-            content: '';
-            width: 4px;
-            height: 24px;
-            background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
-            border-radius: 2px;
-        }
-
-        /* Forms */
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        label {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            margin-bottom: -8px;
-        }
-
-        input, select {
-            padding: 14px 16px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        input:focus, select:focus {
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .two-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        button[type="submit"], button {
-            padding: 14px 24px;
-            border: none;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            color: white;
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 8px;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.4);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        /* Table */
-        .table-container {
-            overflow-x: auto;
-            border-radius: 12px;
-            background: var(--bg-secondary);
-        }
-
-        .table-cours {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .table-cours thead {
-            background: var(--bg-secondary);
-            border-bottom: 2px solid var(--border);
-        }
-
-        .table-cours th {
-            padding: 16px;
-            text-align: left;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .table-cours tbody tr {
-            border-bottom: 1px solid var(--border);
-            transition: background 0.2s ease;
-        }
-
-        .table-cours tbody tr:hover {
-            background: var(--bg-hover);
-        }
-
-        .table-cours td {
-            padding: 16px;
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-
-        /* Action Buttons */
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        #btn-mdf, #btn-delet {
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        #btn-mdf {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--accent-success);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-        }
-
-        #btn-mdf:hover {
-            background: var(--accent-success);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-        }
-
-        #btn-delet {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--accent-danger);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-        }
-
-        #btn-delet:hover {
-            background: var(--accent-danger);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-        }
-
-        /* Badge */
-        .badge {
-            padding: 4px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .badge-success {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--accent-success);
-        }
-
-        .badge-warning {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--accent-warning);
-        }
-
-        .badge-danger {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--accent-danger);
-        }
-
-        /* Responsive */
-        @media(max-width: 768px) {
-            body {
-                padding: 16px;
-            }
-
-            .header h1 {
-                font-size: 24px;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-
-            .stat-number {
-                font-size: 36px;
-            }
-
-            .two-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .table-cours thead {
-                display: none;
-            }
-
-            .table-cours tbody tr {
-                display: block;
-                margin-bottom: 16px;
-                border-radius: 12px;
-                border: 1px solid var(--border);
-                background: var(--bg-secondary);
-            }
-
-            .table-cours td {
-                display: flex;
-                justify-content: space-between;
-                padding: 12px 16px;
-                border-bottom: 1px solid var(--border);
-            }
-
-            .table-cours td:last-child {
-                border-bottom: none;
-            }
-
-            .table-cours td::before {
-                content: attr(data-label);
-                font-weight: 600;
-                color: var(--text-secondary);
-                font-size: 12px;
-                text-transform: uppercase;
-            }
-
-            .action-buttons {
-                width: 100%;
-                flex-direction: column;
-            }
-
-            #btn-mdf, #btn-delet {
-                flex: 1;
-                justify-content: center;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/styles/style.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <body>
+
+    <div class="welcome-banner option-a">
+        <h2>Bienvenue, Administrateur !</h2>
+        <p class="greeting-message">Gérez l'énergie, les cours et l'équipement de votre salle de sport.</p>
+        <div class="action-prompt">Prêt à commencer ?</div>
+    </div>
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h1>Dashboard Salle de Sport</h1>
-            <p>Gérez vos cours et équipements en toute simplicité</p>
+
+            <div class="header-buttons">
+                <a href="" class="btn-dashboard">Dashboard</a>
+                <a href="" class="btn-ajouter-cours">Ajouter un cours</a>
+                <a href="" class="btn-ajouter-equipement">Ajouter un équipement</a>
+            </div>
+            <h1 class="text-dashboard">Dashboard Salle de Sport</h1>
         </div>
+
 
         <!-- Stats Grid -->
         <div class="stats-grid">
@@ -502,9 +124,9 @@ if (isset($_GET['deleq_id'])) {
                 <div class="stat-number">0</div>
             </div>
         </div>
-        
+
         <!-- Add Course Form -->
-        <div class="card">
+        <div class="card part-cours" style="display: none;">
             <h3>Ajouter un cours</h3>
             <form action="" method="POST">
                 <input type="hidden" name="form" value="cours">
@@ -528,7 +150,7 @@ if (isset($_GET['deleq_id'])) {
         </div>
 
         <!-- Add Equipment Form -->
-        <div class="card">
+        <div class="card part-equipement" style="display: none">
             <h3>Ajouter un équipement</h3>
             <form action="" method="POST">
                 <input type="hidden" name="form" value="equipement">
@@ -548,7 +170,7 @@ if (isset($_GET['deleq_id'])) {
         </div>
 
         <!-- Courses Table -->
-        <div class="card">
+        <div class="card list-cours" style="display: none;">
             <h3>Liste des cours</h3>
             <div class="table-container">
                 <table class="table-cours">
@@ -575,8 +197,8 @@ if (isset($_GET['deleq_id'])) {
                             <td data-label='Places'>" . $row["nombre_max_de_participants"] . "</td>
                             <td data-label='Actions'>
                                 <div class='action-buttons'>
-                                    <a href='#' id='btn-mdf'>Modifier</a>
-                                    <a href='index.php?del_id={$row['id_cours']}' id='btn-delet'>Supprimer</a>
+                                    <a href='#' id='btn-mdf' onclick= 'return checkedit()'>Modifier</a>
+                                    <a href='index.php?del_id={$row['id_cours']}' id='btn-delet' onclick='checkdelet(event)'>Supprimer</a>
                                 </div>
                             </td>
                         </tr>";
@@ -588,7 +210,7 @@ if (isset($_GET['deleq_id'])) {
         </div>
 
         <!-- Equipment Table -->
-        <div class="card">
+        <div class="card list-equipement" style="display: none;">
             <h3>Liste des équipements</h3>
             <div class="table-container">
                 <table class="table-cours">
@@ -612,7 +234,7 @@ if (isset($_GET['deleq_id'])) {
                             <td data-label='Action'>
                                 <div class='action-buttons'>
                                     <a href='#' id='btn-mdf'>Modifier</a>
-                                    <a href='index.php?deleq_id={$row['id_equipement']}' id='btn-delet'>Supprimer</a>
+                                    <a href='index.php?deleq_id={$row['id_equipement']}' id='btn-delet' onclick='checkdelet(event)'>Supprimer</a>
                                 </div>
                             </td>
                         </tr>";
@@ -623,10 +245,10 @@ if (isset($_GET['deleq_id'])) {
             </div>
         </div>
     </div>
+
+    
+
+    <script src="allscript.js"></script>
 </body>
 
 </html>
-
-
-
-/*in use case add validation delete et edit*/;
