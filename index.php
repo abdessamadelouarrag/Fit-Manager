@@ -98,7 +98,7 @@ if (isset($_GET['edit_id'])) {
         $nb_max = $datacours['nombre_max_de_participants'];
     }
 }
-
+//part count type cours
 $totalYoga = "SELECT * FROM cours WHERE categorie = 'Yoga'";
 $resultotal = mysqli_query($conn, $totalYoga);
 $datayoga = mysqli_fetch_all($resultotal);
@@ -110,9 +110,21 @@ $datamusculation = mysqli_fetch_all($resultotalmus);
 $totalMusculation = "SELECT * FROM cours WHERE categorie = 'Cardio'";
 $resultotalcardio = mysqli_query($conn, $totalMusculation);
 $datacardio = mysqli_fetch_all($resultotalcardio);
+
+//count type equipement
+
+$totalHalteres = "SELECT * FROM equipement WHERE type = 'Haltères'";
+$resulthalt = mysqli_query($conn, $totalHalteres);
+$datahalteres = mysqli_fetch_all($resulthalt);
+
+$totaltapis = "SELECT * FROM equipement WHERE type = 'Tapis de course'";
+$resulttapis = mysqli_query($conn, $totaltapis);
+$datatapis = mysqli_fetch_all($resulttapis);
+
+$totalballon = "SELECT * FROM equipement WHERE type = 'Ballons'";
+$resultballon = mysqli_query($conn, $totalballon);
+$databallon = mysqli_fetch_all($resultballon);
 ?>
-
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -180,16 +192,16 @@ $datacardio = mysqli_fetch_all($resultotalcardio);
                     <h1 class="title">Equipement Par Type</h1>
                     <div class="types-container">
                         <div class="type-box yoga">
-                            <h3 style="color: #1a1f2e">Yoga</h3>
-                            <div class="stat-number"><?= count($datahalteres) ?></div>
+                            <h3 style="color: #1a1f2e">Haltères</h3>
+                            <div class="stat-number"><?=count($datahalteres)?></div>
                         </div>
                         <div class="type-box musculation">
-                            <h3 style="color: #1a1f2e">Musculation</h3>
-                            <div class="stat-number"><?= count($datatapis) ?></div>
+                            <h3 style="color: #1a1f2e">Tapis</h3>
+                            <div class="stat-number"><?=count($datatapis)?></div>
                         </div>
                         <div class="type-box cardio">
-                            <h3 style="color: #1a1f2e">Cardio</h3>
-                            <div class="stat-number" style="color: #1a1f2e;"><?= count($databallons) ?></div>
+                            <h3 style="color: #1a1f2e">Ballons</h3>
+                            <div class="stat-number"><?=count($databallon)?></div>
                         </div>
                     </div>
                 </div>
@@ -227,7 +239,12 @@ $datacardio = mysqli_fetch_all($resultotalcardio);
             <form action="" method="POST">
                 <input type="hidden" name="form" value="equipement">
                 <input type="text" name="nom_equipement" placeholder="Nom de l'équipement" required>
-                <input type="text" name="type_equipement" placeholder="Type (ex : Haltères)" required>
+                <select type="text" name="type_equipement" required>
+                    <option value="">--Type--</option>
+                        <option>Haltères</option>
+                        <option>Tapis de course</option>
+                        <option>Ballons</option>
+                </select>
                 <div class="two-grid">
                     <input type="number" name="quantite_equipement" placeholder="Quantité" required>
                     <select name="etat_equipement" required>

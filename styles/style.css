@@ -586,15 +586,35 @@ button:active {
     color: #1a1f2e;
 }
 
-/* Colors per type */
+/* Colors */
 .yoga {
-    background: #9b95ee;   /* mint green */
+    background: #9b95ee;
 }
 
 .musculation {
-    background: #b2adf7;   /* orange */
+    background: #b2adf7;
 }
 
 .cardio {
-    background: #d1cefa;   /* red/pink */
+    background: #d1cefa;
 }
+
+/* ------------------------- */
+/* 📱 MOBILE RESPONSIVE */
+/* ------------------------- */
+@media (max-width: 600px) {
+    .types-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .type-box {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .stat-number {
+        font-size: 24px;
+    }
+}
+
