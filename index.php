@@ -1,5 +1,7 @@
 <?php
 include "connect.php";
+include "delete.php";
+include "edit.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -12,7 +14,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $duree_cours = $_POST["duree_cours"];
         $max_places = $_POST["max_places"];
 
+        //part put values in input for edit
 
+        if (isset($_GET['edit_id'])) {
+
+        $editid = $_GET['edit_id'];
+
+        $sql = "UPDATE cours SET 
+                    nom='$name_cours',
+                    categorie='$categorie_cours',
+                    date_cours='$date_cours',
+                    heure='$houre_cours',
+                    duree='$duree_cours',
+                    nombre_max_de_participants='$max_places'
+                WHERE id_cours=$editid";
+
+        if (mysqli_query($conn, $sql)) {
+            header("Location: index.php?updated=1");
+            exit();
+        } else {
+            echo 'Error: ' . mysqli_error($conn);
+        }
+    }
+
+    else{
         $sql = "INSERT INTO cours (nom, categorie, date_cours, heure, duree, nombre_max_de_participants) VALUES ('$name_cours', '$categorie_cours', '$date_cours', '$houre_cours', '$duree_cours', '$max_places')";
 
         if (mysqli_query($conn, $sql)) {
@@ -21,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             echo "Error:" . mysqli_error($conn);
         }
+    }
     }
 
 
@@ -31,13 +57,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $quantite_equipement = $_POST["quantite_equipement"];
         $etat_equipement = $_POST["etat_equipement"];
 
-        $sql_eq = "INSERT INTO equipement (nom, type, quantite_disponible, etat) VALUES ('$nom_equipement', '$type_equipement', '$quantite_equipement', '$etat_equipement')";
+        if(isset($_GET["edit_id"])){
+            $editeq = $_GET["edit_id"];
 
-        if (mysqli_query($conn, $sql_eq)) {
-            header("Location: index.php");
-            exit();
-        } else {
-            echo "Error:" . mysqli_error($conn);
+            $sqledit = "UPDATE equipement SET nom='$nom_equipement' , type='$type_equipement', quantite_disponible='$quantite_equipement' , etat='$etat_equipement'";
+
+            if(mysqli_query($conn, $sqledit)){
+                header("Location:index.php");
+                exit();
+            }
+            else{
+                echo "ERROR:" . mysqli_error($conn);
+            }
+        }
+
+        else{
+            $sql_eq = "INSERT INTO equipement (nom, type, quantite_disponible, etat) VALUES ('$nom_equipement', '$type_equipement', '$quantite_equipement', '$etat_equipement')";
+
+            if (mysqli_query($conn, $sql_eq)) {
+                header("Location: index.php");
+                exit();
+            } else {
+                echo "Error:" . mysqli_error($conn);
+            }
         }
     }
 }
@@ -50,54 +92,6 @@ $sql3 = "SELECT * FROM equipement";
 $resutlt3 = mysqli_query($conn, $sql3);
 $data3 = mysqli_fetch_all($resutlt3, MYSQLI_ASSOC);
 
-//patie delet cours f table
-if (isset($_GET['del_id'])) {
-    $delet_cours = $_GET['del_id'];
-    $sqldelet = "DELETE FROM cours WHERE id_cours = $delet_cours";
-
-    if (mysqli_query($conn, $sqldelet)) {
-        header("Location: index.php?succes=1");
-        exit();
-    } else {
-        echo "Error:" . mysqli_error($conn);
-    }
-}
-//partie delet equipement in table
-if (isset($_GET['deleq_id'])) {
-    $delet_equipement = $_GET['deleq_id'];
-    $sqldelet_equipement = "DELETE FROM equipement WHERE id_equipement= $delet_equipement";
-
-    if (mysqli_query($conn, $sqldelet_equipement)) {
-        header("Location: index.php?succes=1");
-        exit();
-    } else {
-        echo "Error:" . mysqli_error($conn);
-    }
-}
-
-//part edit cours
-
-$name_cours = "";
-$catg_cours = "";
-$date_cours = "";
-$heure_cours = "";
-$duree = "";
-$nb_max = "";
-
-if (isset($_GET['edit_id'])) {
-    $edit_cours = $_GET['edit_id'];
-    $selectcours = mysqli_query($conn, "SELECT * FROM cours WHERE id_cours = $edit_cours");
-    $datacours = mysqli_fetch_assoc($selectcours);
-
-    if ($datacours) {
-        $name_cours = $datacours['nom'];
-        $catg_cours = $datacours['categorie'];
-        $date_cours = $datacours['date_cours'];
-        $heure_cours = $datacours['heure'];
-        $duree = $datacours['duree'];
-        $nb_max = $datacours['nombre_max_de_participants'];
-    }
-}
 //part count type cours
 $totalYoga = "SELECT * FROM cours WHERE categorie = 'Yoga'";
 $resultotal = mysqli_query($conn, $totalYoga);
@@ -112,7 +106,6 @@ $resultotalcardio = mysqli_query($conn, $totalMusculation);
 $datacardio = mysqli_fetch_all($resultotalcardio);
 
 //count type equipement
-
 $totalHalteres = "SELECT * FROM equipement WHERE type = 'Haltères'";
 $resulthalt = mysqli_query($conn, $totalHalteres);
 $datahalteres = mysqli_fetch_all($resulthalt);
@@ -124,6 +117,7 @@ $datatapis = mysqli_fetch_all($resulttapis);
 $totalballon = "SELECT * FROM equipement WHERE type = 'Ballons'";
 $resultballon = mysqli_query($conn, $totalballon);
 $databallon = mysqli_fetch_all($resultballon);
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -238,20 +232,20 @@ $databallon = mysqli_fetch_all($resultballon);
             <h3>Ajouter un équipement</h3>
             <form action="" method="POST">
                 <input type="hidden" name="form" value="equipement">
-                <input type="text" name="nom_equipement" placeholder="Nom de l'équipement" required>
+                <input type="text" name="nom_equipement" placeholder="Nom de l'équipement" value="<?=$name_equipementd?>" required>
                 <select type="text" name="type_equipement" required>
                     <option value="">--Type--</option>
-                        <option>Haltères</option>
-                        <option>Tapis de course</option>
-                        <option>Ballons</option>
+                        <option <?=($type_equipementd == "Haltères") ? 'selected' : ''?>>Haltères</option>
+                        <option  <?=($type_equipementd == "Tapis de course") ? 'selected' : ''?>>Tapis de course</option>
+                        <option <?=($type_equipementd == "Ballons") ? 'selected' : ''?>>Ballons</option>
                 </select>
                 <div class="two-grid">
-                    <input type="number" name="quantite_equipement" placeholder="Quantité" required>
+                    <input type="number" name="quantite_equipement" placeholder="Quantité" value="<?=$quantite_equipementd?>" required>
                     <select name="etat_equipement" required>
                         <option value="">--État--</option>
-                        <option>Bon</option>
-                        <option>Moyen</option>
-                        <option>À remplacer</option>
+                        <option <?=($etat_equipementd =="Bon") ? 'selected' : '' ?>>Bon</option>
+                        <option <?=($etat_equipementd =="Moyen") ? 'selected' : '' ?>>Moyen</option>
+                        <option <?=($etat_equipementd =="À remplacer") ? 'selected' : '' ?>>À remplacer</option>
                     </select>
                 </div>
                 <button>Ajouter</button>
@@ -322,7 +316,7 @@ $databallon = mysqli_fetch_all($resultballon);
                             <td data-label='État'>" . $row["etat"] . "</td>
                             <td data-label='Action'>
                                 <div class='action-buttons'>
-                                    <a href='#' id='btn-mdf'>Modifier</a>
+                                    <a href='index.php?edit_id={$row['id_equipement']}' id='btn-mdf'>Modifier</a>
                                     <a href='index.php?deleq_id={$row['id_equipement']}' id='btn-delet' onclick='checkdelet(event)'>Supprimer</a>
                                 </div>
                             </td>
