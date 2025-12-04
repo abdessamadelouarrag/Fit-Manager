@@ -1,62 +1,52 @@
-# 🏋️‍♂️ Fit Manager
+# Fit-Manager
 
-Fit-Manager est une application web simple permettant de gérer les salles de sport : suivi des cours, gestion des équipements, des inscriptions, et des membres.  
+Mini-système pour gérer les cours et équipements d’une salle de sport
+
+## 🎯 Description
+
+Fit-Manager est une application web simple permettant de gérer les salles de sport : suivi des cours, gestion des équipements.  
 Elle fournit une interface pour ajouter, modifier, supprimer des cours ou des équipements, et organiser l’activité de la salle de sport de façon efficace.
 
----
+## 🧰 Technologies utilisées
 
-## 🚀 Features
+- PHP  
+- MySQL / base de données SQL (via `database.sql`)  
+- HTML / CSS pour le frontend  
+- JavaScript pour les interactions côté client  
+- Fichiers PHP pour le backend (CRUD : create / read / update / delete)
 
-- Add, update and delete **courses**
-- Manage **equipment**
-- Clean and responsive dashboard
-- PHP + MySQL backend
-- Simple and customizable UI
 
----
+## 🚀 Installation & mise en route
 
-## 🛠️ Technologies
-
-- **PHP**
-- **MySQL**
-- **HTML / CSS**
-- **JavaScript**
-
----
-
-## 📦 Installation
-
-1. Clone the repository  
+1. Cloner le dépôt :  
    ```bash
    git clone https://github.com/abdessamadelouarrag/Fit-Manager.git
-Import the database file
+Importer la base de données : ouvrir database.sql dans votre gestionnaire de base de données pour créer la structure nécessaire.
 
-Open database.sql in phpMyAdmin or MySQL Workbench
+Placer les fichiers sur un serveur web (Apache, Nginx…) compatible PHP.
 
-Import to create all tables
+Accéder via navigateur à index.php pour utiliser l’application.
 
-Run the project
 
-Place the project inside your local server folder (htdocs for XAMPP)
+📝 Utilisation
+Ajouter / modifier / supprimer des cours ou des équipements.
 
-Open in browser:
+Visualiser les cours et équipements disponibles.
 
-bash
+(Adapte le contenu selon les fonctionnalités réellement implémentées.)
+
+
+📂 Structure du projet
+pgsql
 Copier le code
-http://localhost/Fit-Manager/index.php
-
-
-Fit-Manager/
-│── index.php
-│── connect.php
-│── allscript.js
-│── styles/
-│── images/
-└── database.sql
-└── edit.php
-└── delete.php
+/images        → images (icônes, photos…)
+/styles       → fichiers CSS
+index.php     → page d’accueil / dashboard
+allscript.js  → script JavaScript global
+database.sql  → dump de la base de données
+add, edit, delete, etc → scripts PHP pour la gestion CRUD
 
 
 
-👤 Author
-Abdessamad Elouarrag
+✍️ Auteur
+Abdessamad El Ouarrag — créateur du projet.
