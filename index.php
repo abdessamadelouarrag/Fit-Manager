@@ -60,7 +60,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if(isset($_GET["edit_id"])){
             $editeq = $_GET["edit_id"];
 
-            $sqledit = "UPDATE equipement SET nom='$nom_equipement' , type='$type_equipement', quantite_disponible='$quantite_equipement' , etat='$etat_equipement'";
+            $sqledit = "UPDATE equipement SET 
+                        nom='$nom_equipement' ,
+                        type='$type_equipement',
+                        quantite_disponible='$quantite_equipement' ,
+                        etat='$etat_equipement'
+                        WHERE id_equipement=$editeq";
 
             if(mysqli_query($conn, $sqledit)){
                 header("Location:index.php");

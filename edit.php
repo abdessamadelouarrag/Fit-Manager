@@ -22,7 +22,6 @@ if (isset($_GET['edit_id'])) {
         $nb_max = $datacours['nombre_max_de_participants'];
     }
 }
-
 $name_equipementd = "";
 $type_equipementd = "";
 $quantite_equipementd = "";
