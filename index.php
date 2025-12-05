@@ -146,7 +146,6 @@ $databallon = mysqli_fetch_all($resultballon);
     <div class="container">
         <!-- Header -->
         <div class="header">
-
             <div class="header-buttons">
                 <a href="" class="btn-dashboard">Dashboard</a>
                 <a href="" class="btn-ajouter-cours">Ajouter un cours</a>

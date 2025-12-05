@@ -21,9 +21,9 @@ function checkdelet(event) {
 }
 
 
-    // function checkedit() {
-    //     return confirm("Are you sure you want to edit?");
-    // }
+    function checkedit() {
+        return confirm("Are you sure you want to edit?");
+    }
 
 const btnDashboard = document.querySelector(".btn-dashboard"); // New selector for dashboard button
 const btnAjouterCours = document.querySelector(".btn-ajouter-cours");
@@ -35,6 +35,7 @@ const listCours = document.querySelector(".list-cours");
 const listEquipement = document.querySelector(".list-equipement");
 const textDashboard = document.querySelector(".text-dashboard");
 const partTypeCours = document.querySelector("#part-type-cours");
+const allForms = document.querySelector("form");
 
 // --- Helper function to manage visibility ---
 function setVisibility(dashboard, addCours, addEquipement, listCoursVisible, listEquipementVisible) {
@@ -51,6 +52,7 @@ btnDashboard.addEventListener("click", (e) => {
     setVisibility(true, false, false, false, false);
     textDashboard.style.display = "block";
     partTypeCours.style.display = ""
+    allForms.reset();
 });
 
 
