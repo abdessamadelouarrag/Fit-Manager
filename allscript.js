@@ -35,7 +35,6 @@ const listCours = document.querySelector(".list-cours");
 const listEquipement = document.querySelector(".list-equipement");
 const textDashboard = document.querySelector(".text-dashboard");
 const partTypeCours = document.querySelector("#part-type-cours");
-const allForms = document.querySelector("form");
 
 // --- Helper function to manage visibility ---
 function setVisibility(dashboard, addCours, addEquipement, listCoursVisible, listEquipementVisible) {
@@ -52,14 +51,12 @@ btnDashboard.addEventListener("click", (e) => {
     setVisibility(true, false, false, false, false);
     textDashboard.style.display = "block";
     partTypeCours.style.display = ""
-    allForms.reset();
 });
 
 
 // 2. Add Course Button Handler
 btnAjouterCours.addEventListener("click", (e) => {
     e.preventDefault();
-    // Show Course Form and Course List, hide others
     setVisibility(false, true, false, true, false);
     textDashboard.style.display = "none";
     partTypeCours.style.display = "none"

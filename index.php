@@ -131,7 +131,7 @@ $databallon = mysqli_fetch_all($resultballon);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Dashboard Salle de Sport</title>
-    <link rel="icon" type="image/jpeg" href="/images/gym.jpeg" />
+    <link rel="icon" type="image/jpeg" href="/images/Solvd Inc_ · Walnut Creek, California.jpeg" />
     <link rel="stylesheet" href="/styles/style.css">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
@@ -234,7 +234,7 @@ $databallon = mysqli_fetch_all($resultballon);
         <!-- Add Equipment Form -->
         <div class="card part-equipement" style="display: none">
             <h3>Ajouter un équipement</h3>
-            <form action="" method="POST">
+            <form action="" method="POST" id="formequipement">
                 <input type="hidden" name="form" value="equipement">
                 <input type="text" name="nom_equipement" placeholder="Nom de l'équipement" value="<?=$name_equipementd?>" required>
                 <select type="text" name="type_equipement" required>
