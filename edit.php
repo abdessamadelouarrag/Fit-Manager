@@ -1,4 +1,6 @@
 <?php
+
+$user_id = $_SESSION["id_user"];
 //part edit cours
 
 $name_cours = "";
@@ -10,7 +12,7 @@ $nb_max = "";
 
 if (isset($_GET['edit_id'])) {
     $edit_cours = $_GET['edit_id'];
-    $selectcours = mysqli_query($conn, "SELECT * FROM cours WHERE id_cours = $edit_cours");
+    $selectcours = mysqli_query($conn, "SELECT * FROM cours WHERE id_cours = $edit_cours AND id_user = $user_id");
     $datacours = mysqli_fetch_assoc($selectcours);
 
     if ($datacours) {
@@ -29,7 +31,7 @@ $etat_equipementd = "";
 
 if (isset($_GET['edit_id'])) {
     $edit_equipement = $_GET['edit_id'];
-    $selectequipement = mysqli_query($conn, "SELECT * FROM equipement WHERE id_equipement = $edit_equipement");
+    $selectequipement = mysqli_query($conn, "SELECT * FROM equipement WHERE id_equipement = $edit_equipement AND id_user = $user_id");
     $dataequipement = mysqli_fetch_assoc($selectequipement);
 
     if($dataequipement){

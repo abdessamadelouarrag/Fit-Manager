@@ -1,5 +1,3 @@
-CREATE DATABASE FitManager;
-USE fitmanager;
 CREATE table cours (id_cours INT PRIMARY KEY AUTO_INCREMENT,
                     nom VARCHAR(150),
                     categorie VARCHAR(150),
@@ -24,4 +22,11 @@ CREATE TABLE cours_equipement (
     
         FOREIGN KEY (id_cours) REFERENCES cours(id_cours),
         FOREIGN KEY (id_equipement) REFERENCES equipement(id_equipement)
+    );
+
+CREATE TABLE users (
+	id_user INT PRIMARY KEY AUTO_INCREMENT,
+	username VARCHAR(30) NOT NULL,
+	email VARCHAR(100) NOT NULL,
+	password VARCHAR(150) NOT NULL
     );

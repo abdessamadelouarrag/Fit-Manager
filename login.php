@@ -13,7 +13,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $results = mysqli_query($conn, $sqluser);
 
     if(mysqli_num_rows($results) == 1){
-        $_SESSION["username"] = $username;
+
+        $row = mysqli_fetch_assoc($results);
+        $_SESSION["username"] = $row['username'];
+        $_SESSION['id_user'] = $row['id_user'];
         header("Location: dashboard.php");
         exit();
     }

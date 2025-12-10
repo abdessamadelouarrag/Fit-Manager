@@ -6,6 +6,7 @@ include "delete.php";
 include "edit.php";
 
 $userlogin = $_SESSION["username"];
+$user_id = $_SESSION["id_user"];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -24,19 +25,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $editid = $_GET['edit_id'];
 
-            $sql = "UPDATE cours SET nom='$name_cours', categorie='$categorie_cours', date_cours='$date_cours', heure='$houre_cours', duree='$duree_cours', nombre_max_de_participants='$max_places' WHERE id_cours=$editid";
+            $sql = "UPDATE cours SET nom='$name_cours', categorie='$categorie_cours', date_cours='$date_cours', heure='$houre_cours', duree='$duree_cours', nombre_max_de_participants='$max_places' WHERE id_cours=$editid AND id_user = '$user_id'";
 
             if (mysqli_query($conn, $sql)) {
-                header("Location: index.php?updated=1");
+                header("Location: dashboard.php?updated=1");
                 exit();
             } else {
                 echo 'Error: ' . mysqli_error($conn);
             }
         } else {
-            $sql = "INSERT INTO cours (nom, categorie, date_cours, heure, duree, nombre_max_de_participants) VALUES ('$name_cours', '$categorie_cours', '$date_cours', '$houre_cours', '$duree_cours', '$max_places')";
+            $sql = "INSERT INTO cours (nom, categorie, date_cours, heure, duree, nombre_max_de_participants, id_user) VALUES ('$name_cours', '$categorie_cours', '$date_cours', '$houre_cours', '$duree_cours', '$max_places', '$user_id')";
 
             if (mysqli_query($conn, $sql)) {
-                header("Location: index.php");
+                header("Location: dashboard.php");
                 exit();
             } else {
                 echo "Error:" . mysqli_error($conn);
@@ -55,24 +56,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_GET["edit_id"])) {
             $editeq = $_GET["edit_id"];
 
-            $sqledit = "UPDATE equipement SET 
-                        nom='$nom_equipement' ,
-                        type='$type_equipement',
-                        quantite_disponible='$quantite_equipement' ,
-                        etat='$etat_equipement'
-                        WHERE id_equipement=$editeq";
+            $sqledit = "UPDATE equipement SET nom='$nom_equipement' ,type='$type_equipement',quantite_disponible='$quantite_equipement' ,etat='$etat_equipement' WHERE id_equipement=$editeq AND id_user ='$user_id'";
 
             if (mysqli_query($conn, $sqledit)) {
-                header("Location:index.php");
+                header("Location:dashboard.php");
                 exit();
             } else {
                 echo "ERROR:" . mysqli_error($conn);
             }
         } else {
-            $sql_eq = "INSERT INTO equipement (nom, type, quantite_disponible, etat) VALUES ('$nom_equipement', '$type_equipement', '$quantite_equipement', '$etat_equipement')";
+            $sql_eq = "INSERT INTO equipement (nom, type, quantite_disponible, etat, id_user) VALUES ('$nom_equipement', '$type_equipement', '$quantite_equipement', '$etat_equipement', '$user_id')";
 
             if (mysqli_query($conn, $sql_eq)) {
-                header("Location: index.php");
+                header("Location: dashboard.php");
                 exit();
             } else {
                 echo "Error:" . mysqli_error($conn);
@@ -81,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$sql2 = "SELECT * FROM cours";
+$sql2 = "SELECT * FROM cours WHERE id_user = '$user_id'";
 $result = mysqli_query($conn, $sql2);
 $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
@@ -90,28 +86,28 @@ $resutlt3 = mysqli_query($conn, $sql3);
 $data3 = mysqli_fetch_all($resutlt3, MYSQLI_ASSOC);
 
 //part count type cours
-$totalYoga = "SELECT * FROM cours WHERE categorie = 'Yoga'";
+$totalYoga = "SELECT * FROM cours WHERE categorie = 'Yoga' AND id_user = '$user_id'";
 $resultotal = mysqli_query($conn, $totalYoga);
 $datayoga = mysqli_fetch_all($resultotal);
 
-$totalMusculation = "SELECT * FROM cours WHERE categorie = 'Musculation'";
+$totalMusculation = "SELECT * FROM cours WHERE categorie = 'Musculation' AND id_user = '$user_id'";
 $resultotalmus = mysqli_query($conn, $totalMusculation);
 $datamusculation = mysqli_fetch_all($resultotalmus);
 
-$totalMusculation = "SELECT * FROM cours WHERE categorie = 'Cardio'";
+$totalMusculation = "SELECT * FROM cours WHERE categorie = 'Cardio' AND id_user = '$user_id'";
 $resultotalcardio = mysqli_query($conn, $totalMusculation);
 $datacardio = mysqli_fetch_all($resultotalcardio);
 
 //count type equipement
-$totalHalteres = "SELECT * FROM equipement WHERE type = 'Haltères'";
+$totalHalteres = "SELECT * FROM equipement WHERE type = 'Haltères' AND id_user = '$user_id'";
 $resulthalt = mysqli_query($conn, $totalHalteres);
 $datahalteres = mysqli_fetch_all($resulthalt);
 
-$totaltapis = "SELECT * FROM equipement WHERE type = 'Tapis de course'";
+$totaltapis = "SELECT * FROM equipement WHERE type = 'Tapis de course' AND id_user = '$user_id'";
 $resulttapis = mysqli_query($conn, $totaltapis);
 $datatapis = mysqli_fetch_all($resulttapis);
 
-$totalballon = "SELECT * FROM equipement WHERE type = 'Ballons'";
+$totalballon = "SELECT * FROM equipement WHERE type = 'Ballons' AND id_user = '$user_id'";
 $resultballon = mysqli_query($conn, $totalballon);
 $databallon = mysqli_fetch_all($resultballon);
 
@@ -257,7 +253,7 @@ $databallon = mysqli_fetch_all($resultballon);
         </div>
 
         <!-- Courses Table -->
-        <div class="card list-cours" style="display: none;">
+        <div class="card list-cours" style="display: none;" id="list-cours">
             <h3>Liste des cours</h3>
             <div class="table-container">
                 <table class="table-cours">
@@ -320,8 +316,8 @@ $databallon = mysqli_fetch_all($resultballon);
                             <td data-label='État'>" . $row["etat"] . "</td>
                             <td data-label='Action'>
                                 <div class='action-buttons'>
-                                    <a href='index.php?edit_id={$row['id_equipement']}' id='btn-mdf'>Modifier</a>
-                                    <a href='index.php?deleq_id={$row['id_equipement']}' id='btn-delet' onclick='checkdelet(event)'>Supprimer</a>
+                                    <a href='dashboard.php?edit_id={$row['id_equipement']}' id='btn-mdf'>Modifier</a>
+                                    <a href='dashboard.php?deleq_id={$row['id_equipement']}' id='btn-delet' onclick='checkdelet(event)'>Supprimer</a>
                                 </div>
                             </td>
                         </tr>";
