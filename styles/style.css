@@ -761,3 +761,62 @@ button:active {
     margin-bottom: 10px;
     color: grey;
 }
+
+/*part logut and profile*/
+
+.profile-logout {
+    margin-right: 10px;
+    position: absolute;
+    top: 50px; /* Aligns with the top of the header-buttons */
+    right: 0;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    animation: slideDown 0.8s ease-out 0.1s backwards;
+}
+
+.profile-logout a {
+    padding: 10px 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Style for the Logout Button (smaller, more prominent) */
+.btn-logout {
+    padding: 10px; /* Equal padding for a square-ish button */
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--accent-danger);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.btn-logout:hover {
+    background: var(--accent-danger);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.btn-logout svg {
+    margin: 0;
+}
+
+/* Responsive adjustment for small screens */
+@media (max-width: 900px) {
+    /* Adjust position to below the main buttons when screen is too small */
+    .profile-logout {
+        position: static;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        justify-content: start;
+    }
+}
+
+.userlogin{
+    border-bottom: 4px solid #5e1c9c;
+}

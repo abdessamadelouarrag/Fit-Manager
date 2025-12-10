@@ -1,0 +1,278 @@
+/* Custom properties for easy color management */
+:root {
+    --dark-bg: #14142B;
+    --card-bg: #1F2038;
+    --primary-purple: #925FEA;
+    --secondary-blue: #5C6AEF;
+    --accent-light: #C7B0FF;
+    --text-color: #FFFFFF;
+    --text-muted: #A0A3BD;
+    --input-bg: #2B2C40;
+}
+
+body {
+    /* Apply dark background color */
+    background-color: var(--dark-bg);
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /* Ensure it covers the full viewport height */
+}
+
+/* Main Container to limit width and center content */
+.main-container {
+    width: 90%;
+    max-width: 1200px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* --- Welcome Banner (Top Gradient Section) --- */
+.welcome-banner {
+    text-align: center;
+    background: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-blue) 100%);
+    padding: 40px;
+    border-radius: 20px;
+    margin-bottom: 50px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+    /* Adding the subtle inner background color to mimic the image's gradient overlay */
+    overflow: hidden;
+}
+
+.welcome-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    opacity: 0.3;
+}
+
+.welcome-banner h1 {
+    font-size: 2.5em;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.welcome-banner p {
+    font-size: 1.1em;
+    color: #F0F0FF;
+    /* Slightly lighter text for contrast */
+    margin-bottom: 20px;
+}
+
+.google-login {
+    background-color: #FFFFFF;
+    color: #000000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.2s;
+}
+
+.google-login:hover {
+    background-color: #EEEEEE;
+}
+
+.google-login img {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+
+/* --- Dashboard Section --- */
+.dashboard-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dashboard-title {
+    font-size: 1.8em;
+    margin-bottom: 30px;
+    color: var(--accent-light);
+    text-transform: uppercase;
+}
+
+/* --- Form Card (Login/Connexion) --- */
+.form-card {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    /* Adjust as needed */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid #2B2C40;
+    /* Subtle border */
+}
+
+.card-title {
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--accent-light);
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: var(--text-muted);
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px 20px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border: none;
+    border-radius: 8px;
+    box-sizing: border-box;
+    /* Include padding in element's total width and height */
+    font-size: 1em;
+}
+
+/* Hide the default label if you decide to only use placeholders, as in the image */
+.input-group label {
+    display: none;
+}
+
+/* Adjusting input for better visual match to the image */
+.input-group input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+.password-group {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    /* Adjusted for the visually hidden label */
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 1.2em;
+}
+
+.btn-connect {
+    width: 100%;
+    background-color: var(--primary-purple);
+    color: var(--text-color);
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.2s;
+}
+
+.btn-connect:hover {
+    background-color: #7A4CD3;
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+
+.form-footer p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    /* Allow wrapping on small screens */
+    margin: 0;
+}
+
+.form-footer a {
+    color: var(--accent-light);
+    text-decoration: none;
+    padding: 5px 0;
+    transition: color 0.2s;
+}
+
+.form-footer a:hover {
+    color: var(--text-color);
+    text-decoration: underline;
+}
+
+.forgot-password {
+    font-size: 1em;
+    /* To match the 'Créer un compte' size */
+    color: var(--text-muted) !important;
+    /* Overriding the link color to match the image */
+}
+
+.create-account {
+    color: var(--accent-light) !important;
+}
+
+/* Optional: Adding the styles for the dummy navigation buttons from the image */
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.nav-buttons button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--text-color);
+    transition: opacity 0.2s;
+}
+
+.nav-buttons button:hover {
+    opacity: 0.8;
+}
+
+.nav-buttons .btn-dashboard {
+    background-color: #D6336C;
+}
+
+.nav-buttons .btn-add-course {
+    background-color: #0E9577;
+}
+
+.nav-buttons .btn-add-equipment {
+    background-color: #E63946;
+}
+
+.msg-error {
+    background-color: #ffdddd;
+    color: #b30000;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-left: 4px solid #b30000;
+    font-weight: bold;
+    border-radius: 4px;
+}

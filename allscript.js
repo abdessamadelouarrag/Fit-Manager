@@ -8,22 +8,39 @@ function checkdelet(event) {
         buttons: true,
         dangerMode: true,
     })
-    .then((willDelete) => {
-        if (willDelete) {
-            // If user confirms → redirect manually
-            window.location.href = event.target.href;
-        } else {
-            swal("Your file is safe!");
-        }
-    });
+        .then((willDelete) => {
+            if (willDelete) {
+                // If user confirms → redirect manually
+                window.location.href = event.target.href;
+            } else {
+                swal("Your file is safe!");
+            }
+        });
 
     return false; // extra safety
 }
 
 
-    function checkedit() {
-        return confirm("Are you sure you want to edit?");
-    }
+function checkedit(event) {
+    event.preventDefault(); // stop reload
+
+    swal({
+        title: "Are you sure you want edit?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                // If user confirms → redirect manually
+                window.location.href = event.target.href;
+            } else {
+                swal("Your file is safe!");
+            }
+        });
+
+    return false; // extra safety
+}
 
 const btnDashboard = document.querySelector(".btn-dashboard"); // New selector for dashboard button
 const btnAjouterCours = document.querySelector(".btn-ajouter-cours");
