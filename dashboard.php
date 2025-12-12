@@ -2,11 +2,17 @@
 session_start();
 
 include "connect.php";
+
+if (!isset($_SESSION["username"]) || !isset($_SESSION["id_user"])) {
+    header("Location: login.php");
+    exit();
+}
+$userlogin = $_SESSION["username"];
+$user_id   = $_SESSION["id_user"];
+
 include "delete.php";
 include "edit.php";
 
-$userlogin = $_SESSION["username"];
-$user_id = $_SESSION["id_user"];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -168,16 +174,16 @@ $databallon = mysqli_fetch_all($resultballon);
                     <h1 class="title">Cours Par Type</h1>
                     <div class="types-container">
                         <div class="type-box yoga">
-                            <h3 style="color: #1a1f2e">Yoga</h3>
+                            <h3>Yoga</h3>
                             <div class="stat-number"><?= count($datayoga) ?></div>
                         </div>
                         <div class="type-box musculation">
-                            <h3 style="color: #1a1f2e">Musculation</h3>
+                            <h3>Musculation</h3>
                             <div class="stat-number"><?= count($datamusculation) ?></div>
                         </div>
                         <div class="type-box cardio">
-                            <h3 style="color: #1a1f2e">Cardio</h3>
-                            <div class="stat-number" style="color: #1a1f2e;"><?= count($datacardio) ?></div>
+                            <h3>Cardio</h3>
+                            <div class="stat-number"><?= count($datacardio) ?></div>
                         </div>
                     </div>
                 </div>
@@ -186,15 +192,15 @@ $databallon = mysqli_fetch_all($resultballon);
                     <h1 class="title">Equipement Par Type</h1>
                     <div class="types-container">
                         <div class="type-box yoga">
-                            <h3 style="color: #1a1f2e">Haltères</h3>
+                            <h3>Haltères</h3>
                             <div class="stat-number"><?= count($datahalteres) ?></div>
                         </div>
                         <div class="type-box musculation">
-                            <h3 style="color: #1a1f2e">Tapis</h3>
+                            <h3>Tapis</h3>
                             <div class="stat-number"><?= count($datatapis) ?></div>
                         </div>
                         <div class="type-box cardio">
-                            <h3 style="color: #1a1f2e">Ballons</h3>
+                            <h3>Ballons</h3>
                             <div class="stat-number"><?= count($databallon) ?></div>
                         </div>
                     </div>

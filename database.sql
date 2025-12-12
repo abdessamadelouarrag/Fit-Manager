@@ -30,3 +30,11 @@ CREATE TABLE users (
 	email VARCHAR(100) NOT NULL,
 	password VARCHAR(150) NOT NULL
     );
+
+alter table cours add id_user int;
+
+alter table cours add foreign key (id_user) references users(id_user);
+
+alter table equipement ADD id_user int
+
+alter table equipement add foreign key (id_user) references users(id_user);

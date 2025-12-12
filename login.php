@@ -47,7 +47,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <?php endif; ?>
 
             <div class="form-card login-card">
-                <h3 class="card-title">Connexion</h3>
                 <form action="" method="POST">
                     <div class="input-group">
                         <label for="username">Nom d'utilisateur</label>
@@ -56,7 +55,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <div class="input-group password-group">
                         <label for="password">Mot de passe</label>
                         <input type="password" id="password" name="password" placeholder="Mot de passe" required>
-                        <span class="password-toggle">👁️</span>
                     </div>
 
                     <button type="submit" class="btn-connect">Se connecter</button>

@@ -42,7 +42,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     </div>
                     <div class="input-group password-group">
                         <input type="password" id="signup-password" name="password" placeholder="Mot de passe" required>
-                        <span class="password-toggle">👁️</span>
                     </div>
 
                     <button type="submit" class="btn-register">S'inscrire</button>
