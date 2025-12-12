@@ -213,7 +213,7 @@ body {
     overflow: hidden;
 }
 
-.title{
+.title {
     margin-bottom: 2rem;
     text-align: center;
     font-size: 30px;
@@ -437,6 +437,12 @@ button:active {
 }
 
 /* Action Buttons */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
 .action-buttons a {
     padding: .5rem 1rem;
     border-radius: 8px;
@@ -555,7 +561,8 @@ button:active {
 
     .action-buttons {
         width: 100%;
-        justify-content: flex-end;
+        display: grid;
+        justify-content: center;
     }
 
     .profile-logout {
